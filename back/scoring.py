@@ -5,7 +5,7 @@ API_KEY = ""
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/get/scoring/")
 def scoring():
 
     with open("foods.txt", "r") as f:
