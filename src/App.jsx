@@ -22,6 +22,7 @@ export default function App() {
   const [objects, setObjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [score, setScore] = useState("0");
 
   const generate3DModel = async () => {
     if (!prompt) return;
@@ -55,6 +56,17 @@ export default function App() {
     } finally {
       setLoading(false);
     }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/get/scoring/"
+      );
+      const data = await response.json();
+      setScore(data.message);
+    } catch (error) {
+      console.error("Error fetching score: ", error);
+    }
+
   };
 
   const RenderModel = React.memo(({ url, textureUrls }) => {
@@ -206,6 +218,19 @@ export default function App() {
           zIndex: 1,
         }}
       />
+      <div
+        style={{
+          border: "1px solid black",
+          backgroundColor: "white", 
+          padding: "5px", 
+          top: "55px", 
+          left: "350px", 
+          zIndex: "1", 
+          position: "absolute"
+        }}
+      >
+        score: {score}
+      </div>
 
       <Canvas shadows camera={{ position: [100, 40, 100], fov: 6.0 }}>
         <Suspense fallback={null}>
