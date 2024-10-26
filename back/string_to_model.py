@@ -1,5 +1,6 @@
 import requests
 import time
+from fastapi import APIRouter
 
 """
 response = string_to_model("a mushroom")
@@ -13,7 +14,7 @@ YOUR_API_KEYに、meshyのapi keyを入力する
 
 def string_to_model(prompt):
 
-    YOUR_API_KEY = ""
+    YOUR_API_KEY = "自分のAPIキー"
 
     # モデルの生成 ------------------------------------
     payload = {
@@ -49,3 +50,9 @@ def string_to_model(prompt):
 
     print(response.json())
     return response.json()["model_urls"]["glb"]
+
+router = APIRouter()
+
+@router.get('/get/3dmodel_url/{prompt}')
+def get_3d_url(prompt: str):
+    return {"glb_url": string_to_model(prompt)}
