@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from fastapi import FastAPI
 
-API_KEY = "AIzaSyCG4pbo0eGGwU3MB42AWodPayTwS46Sn_M"
+API_KEY = ""
 
 app = FastAPI()
 
