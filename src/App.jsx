@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, userRef } from "react";
 import { Suspense } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
 import {
@@ -12,10 +12,13 @@ import {
 } from "@react-three/drei";
 import { CuboidCollider, Physics, RigidBody } from "@react-three/rapier";
 import { TextureLoader } from "three";
-import "./App.css";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { CameraController } from "./camera";
+import "./App.css";
 
 export default function App() {
+  const [objectCount, setObjectCount] = useState(3);
+  const [shapes, setShapes] = useState([]);
   const [objects, setObjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -34,10 +37,14 @@ export default function App() {
       );
       const data = await response.json();
 
-      const randInt3to5 = Math.floor(Math.random() * 3) + 3;
+      const randInt3to5 = Math.floor(Math.random() * 3) + objectCount;
       const newObjects = Array.from({ length: randInt3to5 }, (_, i) => ({
         id: `${objects.length + i}`,
-        position: [Math.random() * 10 - 5, 5, Math.random() * 10 - 5],
+        position: [
+          (Math.random() + 5.7) * 6, // X軸方向でランダム
+          20 + Math.random() * 2, // Y軸方向で高めの位置
+          (Math.random() + 2.2) * 6, // Z軸方向でランダム,
+        ],
         url: data.glb_url,
         textures: data.texture_urls,
       }));
@@ -51,7 +58,7 @@ export default function App() {
   };
 
   const RenderModel = React.memo(({ url, textureUrls }) => {
-    const [model, setModel] = (useState < THREE.Group) | (null > null);
+    const [model, setModel] = useState(null);
     const [loading, setLoading] = useState(true); // Track loading state
 
     useEffect(() => {
@@ -92,7 +99,9 @@ export default function App() {
   });
 
   const clearObjects = () => {
-    setObjects([]); // objectsを空配列に設定し、全削除
+    setShapes([]); // shapesを空配列に設定し単純図形を削除
+    setObjects([]); // objectsをから配列にして生成オブジェクトを削除
+    console.log("delete");
   };
 
   // ランダムな形状のオブジェクトを追加する関数
@@ -108,7 +117,8 @@ export default function App() {
     const shapeTypes = ["box", "sphere", "cone", "torus"];
     const shape = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
 
-    setObjects([...objects, { id, position, shape }]);
+    setShapes([...shapes, { id, position, shape }]);
+    console.log("set");
   };
 
   const RenderShape = ({ shape }) => {
@@ -136,7 +146,7 @@ export default function App() {
           zIndex: 1,
         }}
       >
-        ランダム追加
+        単純図形追加
       </button>
       <button
         onClick={clearObjects}
@@ -179,6 +189,23 @@ export default function App() {
       >
         {loading ? "生成中..." : "オブジェクトを追加する"}
       </button>
+      <input
+        type="number"
+        value={objectCount}
+        onChange={(e) => setObjectCount(e.target.value)}
+        placeholder="オブジェクト数を指定"
+        max="70"
+        min="0"
+        style={{
+          padding: "10px",
+          marginRight: "10px",
+          position: "absolute",
+          top: "55px",
+          left: "210px",
+          padding: "10px 20px",
+          zIndex: 1,
+        }}
+      />
 
       <Canvas shadows camera={{ position: [100, 40, 100], fov: 6.0 }}>
         <Suspense fallback={null}>
@@ -208,14 +235,14 @@ export default function App() {
           </Clouds>
           <Environment preset="city" />
           <Sky />
-          <Physics debug>
+          <Physics>
             <CameraController />
             <group position={[2, 3, 0]}>
               <Track position={[-3, 0, 10.5]} rotation={[0, -0.4, 0]} />
               <Plane />
             </group>
-            {objects.map((obj) => (
-              <RigidBody key={obj.id} position={obj.position}>
+            {shapes.map((obj) => (
+              <RigidBody key={obj.id} type="dynamic" position={obj.position}>
                 <mesh>
                   <RenderShape shape={obj.shape} />
                   <meshStandardMaterial color="blue" />
@@ -224,7 +251,10 @@ export default function App() {
             ))}
             {objects.map((obj) => (
               <RigidBody key={obj.id} type="dynamic" position={obj.position}>
-                <CuboidCollider args={[1, 1, 1]} />
+                <CuboidCollider
+                  args={[0.5, 0.5, 0.5]}
+                  scale={[1.5, 1.5, 1.5]}
+                />
                 <RenderModel url={obj.url} textureUrls={obj.textures} />
               </RigidBody>
             ))}
