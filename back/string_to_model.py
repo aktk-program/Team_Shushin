@@ -14,7 +14,7 @@ YOUR_API_KEYに、meshyのapi keyを入力する
 
 def string_to_model(prompt):
 
-    YOUR_API_KEY = "自分のAPIキー"
+    YOUR_API_KEY = ""
 
     # モデルの生成 ------------------------------------
     payload = {
@@ -49,6 +49,10 @@ def string_to_model(prompt):
     response.raise_for_status()
 
     print(response.json())
+
+    with open("foods.txt", "a") as f:
+        f.write(f"{prompt}\n")
+
     return response.json()["model_urls"]["glb"]
 
 router = APIRouter()
