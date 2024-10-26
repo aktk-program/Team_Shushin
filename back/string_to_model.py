@@ -34,7 +34,7 @@ def string_to_model(prompt):
     response.raise_for_status()
 
     print("停止中")
-    time.sleep(60)
+    time.sleep(120)
     print("再開")
     # モデルの取得(url) -------------------------------
     task_id = response.json()["result"]
