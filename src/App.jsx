@@ -218,8 +218,8 @@ export default function App() {
           border: "1px solid black",
           backgroundColor: "white",
           padding: "5px",
-          top: "55px",
-          left: "350px",
+          top: "56px",
+          left: "338px",
           zIndex: "1",
           position: "absolute",
         }}
