@@ -209,7 +209,6 @@ export default function App() {
         max="70"
         min="0"
         style={{
-          padding: "10px",
           marginRight: "10px",
           position: "absolute",
           top: "55px",

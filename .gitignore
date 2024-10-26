@@ -27,3 +27,4 @@ dist-ssr
 # back
 back/__pycache__
 back/venv
+back/foods.txt
