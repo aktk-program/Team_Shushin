@@ -58,15 +58,12 @@ export default function App() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/get/scoring/"
-      );
+      const response = await fetch("http://localhost:8000/get/scoring/");
       const data = await response.json();
       setScore(data.message);
     } catch (error) {
       console.error("Error fetching score: ", error);
     }
-
   };
 
   const RenderModel = React.memo(({ url, textureUrls }) => {
@@ -178,7 +175,6 @@ export default function App() {
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="プロンプトを入力"
         style={{
-          padding: "10px",
           marginRight: "10px",
           position: "absolute",
           top: "13px",
@@ -220,12 +216,12 @@ export default function App() {
       <div
         style={{
           border: "1px solid black",
-          backgroundColor: "white", 
-          padding: "5px", 
-          top: "55px", 
-          left: "350px", 
-          zIndex: "1", 
-          position: "absolute"
+          backgroundColor: "white",
+          padding: "5px",
+          top: "55px",
+          left: "350px",
+          zIndex: "1",
+          position: "absolute",
         }}
       >
         score: {score}
