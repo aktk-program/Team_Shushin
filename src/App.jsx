@@ -107,10 +107,22 @@ export default function App() {
     return model ? <primitive object={model} /> : null;
   });
 
-  const clearObjects = () => {
+  const clearObjects = async () => {
     setShapes([]); // shapesを空配列に設定し単純図形を削除
     setObjects([]); // objectsをから配列にして生成オブジェクトを削除
     console.log("delete");
+    try {
+      const response = await fetch(
+        "http://localhost:8000/delete/recorded/foods", {
+          method: 'DELETE'
+        });
+      const data = await response.json();
+      console.log(data);
+      console.log("here");
+      setScore("0");
+    } catch (error) {
+      console.error("Error deleting foods list: ", error);
+    }
   };
 
   // ランダムな形状のオブジェクトを追加する関数
