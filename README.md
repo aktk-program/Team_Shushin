@@ -23,7 +23,7 @@ scoring.py の`API_KEY`に Gemini の API key を入れてください。
 npm run dev
 ```
 
-# python
+# Python
 
 環境は`./back/requirements.txt`参照
 
