@@ -1,22 +1,45 @@
-# React + Vite
+# Your Yaminabe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 使い方
 
-Currently, two official plugins are available:
+```
+$ cd ./back
+$ uvicorn main:app --reload
+$ cd ./..
+$ npm run dev
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 注意
+
+Gemini と Meshy の API key は各自用意してください。<br>
+string_to_model.py の`YOUR_API_KEY`に Meshy の API key、<br>
+scoring.py の`API_KEY`に Gemini の API key を入れてください。
+
+# React(JS) + Vite
+
+環境は`./package.json`参照
+
+```
+npm run dev
+```
 
 # python
 
+環境は`./back/requirements.txt`参照
+
 ## 仮想環境の activate
 
+```
+#作業ディレクトリに移動
 $ sudo apt install python3.12-venv
 $ python3 -m venv [env_name]
 $ source [env_name]/bin/activate
 $ pip install -r requirements.txt
-([env_name]) $
+$ [env_name]/bin/activate
+```
 
 ## 仮想環境の deactivate
 
-$ (env_name) deactivate
+```
+([env_name]) $ deactivate
+```
