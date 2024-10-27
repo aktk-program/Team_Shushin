@@ -35,7 +35,6 @@ $ sudo apt install python3.12-venv
 $ python3 -m venv [env_name]
 $ source [env_name]/bin/activate
 $ pip install -r requirements.txt
-$ [env_name]/bin/activate
 ```
 
 ## 仮想環境の deactivate
