@@ -113,9 +113,11 @@ export default function App() {
     console.log("delete");
     try {
       const response = await fetch(
-        "http://localhost:8000/delete/recorded/foods", {
-          method: 'DELETE'
-        });
+        "http://localhost:8000/delete/recorded/foods",
+        {
+          method: "DELETE",
+        }
+      );
       const data = await response.json();
       console.log(data);
       console.log("here");
@@ -139,7 +141,7 @@ export default function App() {
     const shape = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
 
     setShapes([...shapes, { id, position, shape }]);
-    console.log("set");
+    //console.log("set");
   };
 
   const RenderShape = ({ shape }) => {
@@ -271,6 +273,16 @@ export default function App() {
             <CameraController />
             <group position={[2, 3, 0]}>
               <Track position={[-3, 0, 10.5]} rotation={[0, -0.4, 0]} />
+              <Owan position={[30, 5.5, 25]} rotation={[0, -0.4, 0]} />
+              <Hashioki position={[30, 4.4, 5]} rotation={[0, 4, 0]} />
+              <Hashi_right
+                position={[40, 5.0, 9.0]}
+                rotation={[54.9, 44, 20]}
+              />
+              <Hashi_left
+                position={[40, 5.0, 10.1]}
+                rotation={[54.9, 44, 20]}
+              />
               <Plane />
             </group>
             {shapes.map((obj) => (
@@ -314,16 +326,82 @@ function Track(props) {
   );
 }
 
+function Owan(props) {
+  const { nodes } = useGLTF("./../models/owan.glb");
+  return (
+    <RigidBody colliders="trimesh" type="fixed">
+      <mesh
+        scale={[3, 1.5, 3]}
+        geometry={nodes.円柱.geometry}
+        {...props}
+        dispose={null}
+      >
+        <meshStandardMaterial color="black" side={THREE.DoubleSide} />
+      </mesh>
+    </RigidBody>
+  );
+}
+
+function Hashioki(props) {
+  const { nodes } = useGLTF("./../models/hasioki.glb");
+  return (
+    <RigidBody colliders="trimesh" type="fixed">
+      <mesh
+        scale={[1, 1, 1]}
+        geometry={nodes.立方体.geometry}
+        {...props}
+        dispose={null}
+      >
+        <meshStandardMaterial color="Pink" side={THREE.DoubleSide} />
+      </mesh>
+    </RigidBody>
+  );
+}
+
+function Hashi_right(props) {
+  const { nodes } = useGLTF("./../models/hasi.glb");
+  //console.log(nodes);
+  return (
+    <RigidBody colliders="trimesh" type="fixed">
+      <mesh
+        scale={[0.5, 15, 0.5]}
+        geometry={nodes.円柱.geometry}
+        {...props}
+        dispose={null}
+      >
+        <meshStandardMaterial color="Brown" side={THREE.DoubleSide} />
+      </mesh>
+    </RigidBody>
+  );
+}
+
+function Hashi_left(props) {
+  const { nodes } = useGLTF("./../models/hasi.glb");
+  //console.log(nodes);
+  return (
+    <RigidBody colliders="trimesh" type="fixed">
+      <mesh
+        scale={[0.5, 15, 0.5]}
+        geometry={nodes.円柱001.geometry}
+        {...props}
+        dispose={null}
+      >
+        <meshStandardMaterial color="Brown" side={THREE.DoubleSide} />
+      </mesh>
+    </RigidBody>
+  );
+}
+
 function Plane(props) {
   const tableTexture = useLoader(TextureLoader, "./../images/table.jpg");
   return (
     <mesh>
       <CuboidCollider
         position={[35, 3.2, 15]}
-        args={[30, 1, 30]}
+        args={[20, 1, 20]}
       ></CuboidCollider>
       <mesh position={[35, 3.2, 15]}>
-        <boxGeometry args={[60, 2, 60]} /> {/* サイズは args の2倍 */}
+        <boxGeometry args={[40, 2, 40]} /> {/* サイズは args の2倍 */}
         <meshStandardMaterial map={tableTexture} />
       </mesh>
     </mesh>
